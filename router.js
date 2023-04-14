@@ -8,6 +8,4 @@ const indexRouter = require("./routes/index");
 /* home page */
 router.use("/", indexRouter);
 
-
-
 module.exports = router;
