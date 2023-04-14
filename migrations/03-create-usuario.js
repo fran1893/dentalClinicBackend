@@ -30,7 +30,7 @@ module.exports = {
       id_roles: {
         type: Sequelize.INTEGER,
         references: {
-          model: "roles",
+          model: "rol",
           key: "id",
         },
       },
