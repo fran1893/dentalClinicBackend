@@ -5,14 +5,14 @@ const { Op } = require("sequelize");
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert(
-      "doctores",
+      "pacientes",
       [{ id_usuario: 1, createdAt: new Date(), updatedAt: new Date() }],
       {}
     );
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete("doctores", {
+    await queryInterface.bulkDelete("pacientes", {
       [Op.or]: [{ id_usuario: 1 }],
     });
   },
