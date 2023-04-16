@@ -16,10 +16,7 @@ module.exports = {
 
   async down(queryInterface, Sequelize) {
     await queryInterface.bulkDelete("roles", {
-      [Op.or]: [
-        { nombre_rol: "user" },
-        { nombre_rol: "admin" },
-      ],
+      [Op.or]: [{ nombre_rol: "user" }, { nombre_rol: "admin" }],
     });
   },
 };

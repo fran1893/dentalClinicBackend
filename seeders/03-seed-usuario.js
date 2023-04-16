@@ -47,7 +47,7 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.bulkDelete("centros", {
+    await queryInterface.bulkDelete("usuarios", {
       [Op.or]: [
         {
           nombre: "Luis",
