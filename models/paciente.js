@@ -9,9 +9,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       /* Doctores y Usuarios (1:N) */
-      Pacientes.belongsTo(models.Usuarios, {
+      Pacientes.belongsTo(models.Usuario, {
         as: "usuario",
-        foreignKey: "id_usuario", // foreignKey de Doctores
+        foreignKey: "id_doctor", // foreignKey de Doctores
+      });
+      Pacientes.belongsTo(models.Cita, {
+        as: "cita",
+        foreignKey: "id_paciente", // foreingKey en citas
       });
     }
   }

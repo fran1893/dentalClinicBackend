@@ -9,12 +9,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       /* Usuarios y Roles (1:N) */
-      Usuarios.belongsTo(models.Roles, {
+      Usuarios.belongsTo(models.Rol, {
         as: "roles",
         foreignKey: "id_roles", // foreignKey de Usuarios
       });
-      Usuarios.hasMany(models.Doctores, {
-        foreignKey: "id_usuario", // foreignKey de Usuarios
+      Usuarios.hasMany(models.Doctor, {
+        foreignKey: "id_usuario", // foreignKey de Doctores
+      });
+
+      Usuarios.hasMany(models.Paciente, {
+        foreignKey: "id_usuario", // foreignKey de Doctores
       });
     }
   }
