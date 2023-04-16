@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       /* Usuarios y Roles (1:N) */
       Usuarios.belongsTo(models.Rol, {
         as: "roles",
-        foreignKey: "id_roles", // foreignKey de Usuarios
+        foreignKey: "id_rol", // foreignKey de Usuarios
       });
       Usuarios.hasMany(models.Doctor, {
         foreignKey: "id_usuario", // foreignKey de Doctores
