@@ -12,21 +12,21 @@ module.exports = {
       id_doctor: {
         type: Sequelize.INTEGER,
         references: {
-          model: "doctor",
+          model: "doctores",
           key: "id",
         },
       },
       id_paciente: {
         type: Sequelize.INTEGER,
         references: {
-          model: "paciente",
+          model: "pacientes",
           key: "id",
         },
       },
       id_centro: {
         type: Sequelize.INTEGER,
         references: {
-          model: "centro",
+          model: "centros",
           key: "id",
         },
       },
