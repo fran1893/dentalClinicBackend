@@ -8,7 +8,7 @@ module.exports = {
       "citas",
       [
         {
-          id_doctor: 3,
+          id_doctor: 1,
           id_paciente: 1,
           id_centro: 1,
           fecha: new Date(),
@@ -24,7 +24,7 @@ module.exports = {
 
   async down(queryInterface, Sequelize) {
     await queryInterface.bulkDelete("citas", {
-      [Op.or]: [{ id_doctor: 3 }],
+      [Op.or]: [{ id_doctor: 1 }],
     });
   },
 };
