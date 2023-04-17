@@ -1,10 +1,10 @@
-const { Patient } = require("../models");
+const { Pacientes } = require("../models");
 const { sendErrorResponse } = require("../_util/sendResponse");
 
 const isPatient = async (req, res, next) => {
   try {
-    const patient = await Patient.findOne({
-      where: { user_id: req.user_Id },
+    const patient = await Pacientes.findOne({
+      where: { id_usuario: req.user_id },
     });
 
     if (!patient) {
@@ -15,7 +15,7 @@ const isPatient = async (req, res, next) => {
 
     next();
   } catch (error) {
-    return sendErrorResponse(res,500,"Error verifying user", error)
+    return sendErrorResponse(res, 500, "Error verifying user", error);
   }
 };
 
