@@ -31,7 +31,7 @@ module.exports = {
         },
       },
       fecha: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
       },
       horario: {
         type: Sequelize.TIME,

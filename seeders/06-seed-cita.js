@@ -11,7 +11,7 @@ module.exports = {
           id_doctor: 1,
           id_paciente: 1,
           id_centro: 1,
-          fecha: new Date(),
+          fecha: "2023-04-17",
           horario: "15:45:00.0000000",
           tratamiento: "extraer muela del juicio",
           createdAt: new Date(),
