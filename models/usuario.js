@@ -10,7 +10,6 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       /* Usuarios y Roles (1:N) */
       Usuarios.belongsTo(models.Roles, {
-        as: "roles",
         foreignKey: "id_rol", // foreignKey de Usuarios
       });
       Usuarios.hasOne(models.Doctores, {
@@ -66,7 +65,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       password: { type: DataTypes.STRING },
-      id_roles: DataTypes.INTEGER,
+      id_rol: DataTypes.INTEGER,
     },
     {
       sequelize,
