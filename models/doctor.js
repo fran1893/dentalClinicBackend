@@ -10,20 +10,15 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       /* Doctores y Usuarios (1:1) */
       Doctores.belongsTo(models.Usuarios, {
-        as: "usuario",
         foreignKey: "id_usuario", // foreignKey de Doctores
       });
-      Doctores.belongsTo(models.Citas, {
-        as: "cita",
-        foreignKey: "id_doctor", // foreingKey en citas
-      });
+      Doctores.belongsToMany(models.Pacientes, { through: 'Citas', foreignKey: 'id_doctor'});
     }
   }
   Doctores.init(
     {
       id_usuario: DataTypes.INTEGER,
       activo: DataTypes.ENUM("si", "no"),
-      especializacion: DataTypes.STRING,
     },
     {
       sequelize,
