@@ -9,15 +9,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       /* Usuarios y Roles (1:N) */
-      Usuarios.belongsTo(models.Rol, {
+      Usuarios.belongsTo(models.Roles, {
         as: "roles",
         foreignKey: "id_rol", // foreignKey de Usuarios
       });
-      Usuarios.hasOne(models.Doctor, {
+      Usuarios.hasOne(models.Doctores, {
         foreignKey: "id_usuario", // foreignKey de Doctores
       });
 
-      Usuarios.hasOne(models.Paciente, {
+      Usuarios.hasOne(models.Pacientes, {
         foreignKey: "id_usuario", // foreignKey de Pacientes
       });
     }
