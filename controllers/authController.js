@@ -1,4 +1,4 @@
-const { Usuarios } = require("../models");
+const { Usuarios, Pacientes } = require("../models");
 
 const {
   sendSuccsessResponse,
@@ -32,7 +32,8 @@ authController.register = async (req, res) => {
   };
 
   try {
-    await Usuarios.create(newUser);
+    let newPatient = await Usuarios.create(newUser);
+    Pacientes.create({ id_usuario: newPatient.id });
     sendSuccsessResponse(res, 201, "User registered succsessfully");
   } catch (error) {
     sendErrorResponse(res, 500, "Error creating user", error);
