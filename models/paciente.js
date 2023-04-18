@@ -12,7 +12,10 @@ module.exports = (sequelize, DataTypes) => {
       Pacientes.belongsTo(models.Usuarios, {
         foreignKey: "id_usuario", // foreignKey de Pacientes
       });
-      Pacientes.belongsToMany(models.Doctores, { through: 'Citas', foreignKey: 'id_paciente'});;
+      Pacientes.belongsToMany(models.Doctores, {
+        through: "citas",
+        foreignKey: "id_paciente",
+      });
     }
   }
   Pacientes.init(
