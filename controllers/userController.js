@@ -100,10 +100,13 @@ userController.getAllAppointmentsByDoctor = async (req, res) => {
 userController.getAllPatients = async (req, res) => {
   try {
     const patients = await Pacientes.findAll({
+      attributes: {
+        exclude: ["createdAt", "updatedAt"],
+      },
       include: {
         model: Usuarios,
         attributes: {
-          exclude: ["password", "id_rol", "createdAt", "updatedAt"],
+          exclude: ["id","password", "id_rol", "createdAt", "updatedAt"],
         },
       },
     });
@@ -113,7 +116,12 @@ userController.getAllPatients = async (req, res) => {
       patients,
     ]);
   } catch (error) {
-    return sendErrorResponse(res, 500, "Error retrieving all the patients", error);
+    return sendErrorResponse(
+      res,
+      500,
+      "Error retrieving all the patients",
+      error
+    );
   }
 };
 
@@ -121,10 +129,13 @@ userController.getAllPatients = async (req, res) => {
 userController.getAllDoctors = async (req, res) => {
   try {
     const doctors = await Doctores.findAll({
+      attributes: {
+        exclude: ["createdAt", "updatedAt"],
+      },
       include: {
         model: Usuarios,
         attributes: {
-          exclude: ["password", "id_rol", "createdAt", "updatedAt"],
+          exclude: ["id","password", "id_rol", "createdAt", "updatedAt"],
         },
       },
     });
@@ -133,7 +144,12 @@ userController.getAllDoctors = async (req, res) => {
       doctors,
     ]);
   } catch (error) {
-    return sendErrorResponse(res, 500, "Error retrieving all the doctors", error);
+    return sendErrorResponse(
+      res,
+      500,
+      "Error retrieving all the doctors",
+      error
+    );
   }
 };
 
