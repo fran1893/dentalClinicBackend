@@ -4,6 +4,7 @@ const {
   sendSuccsessResponse,
   sendErrorResponse,
 } = require("../_util/sendResponse");
+const { hash } = require("../_util/hash");
 
 const userController = {};
 
@@ -26,22 +27,26 @@ userController.getProfile = async (req, res) => {
 userController.updateProfile = async (req, res) => {
   try {
     const id_usuario = req.user_id;
-    const { nombre, apellidos, edad, email, telefono } = req.body;
+    let newPassword;
+    if (req.body.password) {
+      newPassword = hash(req.body.password);
+      console.log(newPassword)
+    }
     const updateProfile = await Usuarios.update(
       {
-        nombre: nombre,
-        apellidos: apellidos,
-        edad: edad,
-        email: email,
-        telefono: telefono,
+        ...req.body,
+        password: newPassword,
       },
       { where: { id: id_usuario } }
     );
-
-    return sendSuccsessResponse(res, 200, {
-      success: true,
-      message: "Updated profile",
-    });
+    if (updateProfile == 1) {
+      return sendSuccsessResponse(res, 200, {
+        success: true,
+        message: "Updated profile",
+      });
+    } else {
+      return sendErrorResponse(res, 400, "User not found");
+    }
   } catch (error) {
     return sendErrorResponse(res, 500, "Error updating profile", error);
   }
@@ -106,7 +111,7 @@ userController.getAllPatients = async (req, res) => {
       include: {
         model: Usuarios,
         attributes: {
-          exclude: ["id","password", "id_rol", "createdAt", "updatedAt"],
+          exclude: ["id", "password", "id_rol", "createdAt", "updatedAt"],
         },
       },
     });
@@ -135,7 +140,7 @@ userController.getAllDoctors = async (req, res) => {
       include: {
         model: Usuarios,
         attributes: {
-          exclude: ["id","password", "id_rol", "createdAt", "updatedAt"],
+          exclude: ["id", "password", "id_rol", "createdAt", "updatedAt"],
         },
       },
     });
