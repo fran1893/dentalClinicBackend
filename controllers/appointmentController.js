@@ -66,25 +66,16 @@ appointmentController.createAppointment = async (req, res) => {
   }
 };
 
-
 // BORRAR CITA COMO PACIENTE
 appointmentController.deleteAppointment = async (req, res) => {
   try {
     const appointmentId = req.params.id;
-    const deleteAppointment = await Citas.destroy({
-      where: { id: appointmentId, client_id: req.clientId },
+    await Citas.destroy({
+      where: { id: appointmentId, id_paciente: req.user_id },
     });
-    return res.json({
-      success: true,
-      message: "Appointment deleted",
-      data: deleteAppointment,
-    });
+    return sendSuccsessResponse(res, 200, [{ message: "Appointment deleted" }]);
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "something went wrong",
-      error: error.message,
-    });
+    return sendErrorResponse(res, 500, "Unable to delete appointment", error);
   }
 };
 
@@ -92,25 +83,20 @@ appointmentController.deleteAppointment = async (req, res) => {
 appointmentController.updateAppointment = async (req, res) => {
   try {
     const appointmentId = req.params.id;
-    const date = req.body.date;
-    const hour = req.body.hour;
-    const price = req.body.price;
-    const about = req.body.about;
-    const updateAppointment = await Citas.update(
-      { date: date, hour: hour, price: price, about: about },
-      { where: { id: appointmentId, client_id: req.clientId } }
+    const { fecha, horario, tratamiento, id_centro, id_doctor } = req.body;
+    await Citas.update(
+      {
+        fecha: fecha,
+        horario: horario,
+        tratamiento: tratamiento,
+        id_centro: id_centro,
+        id_doctor: id_doctor,
+      },
+      { where: { id: appointmentId, id_paciente: req.user_id } }
     );
-    return res.json({
-      success: true,
-      message: "Appointment updated",
-      data: updateAppointment,
-    });
+    return sendSuccsessResponse(res, 200, [{ message: "Appointment changed" }]);
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "something went wrong",
-      error: error.message,
-    });
+    return sendErrorResponse(res, 500, "Unable to update appointment", error);
   }
 };
 module.exports = appointmentController;
