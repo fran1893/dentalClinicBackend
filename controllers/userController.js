@@ -140,6 +140,7 @@ userController.getAllDoctors = async (req, res) => {
       },
       include: {
         model: Usuarios,
+        as: "Doctor",
         attributes: {
           exclude: ["id", "password", "id_rol", "createdAt", "updatedAt"],
         },
