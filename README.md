@@ -145,11 +145,11 @@ Tecnologías utilizadas:
 
   - BORRAR CITA COMO PACIENTE (USAR TOKEN Y PASAR ID DE CITA)
 
-        DELETE http://localhost:3000/appointment/7
+        DELETE http://localhost:3000/appointment/:id
 
   - MODIFICAR CITA COMO PACIENTE (USAR TOKEN Y PASAR ID DE CITA)
 
-        PUT http://localhost:3000/appointment/2
+        PUT http://localhost:3000/appointment/:id
 
 </details>
 
