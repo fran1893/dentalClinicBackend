@@ -70,7 +70,7 @@ Tecnologías utilizadas:
 
 - AUTH
 
-  - REGISTER
+  - REGISTRAR PACIENTE
 
           POST http://localhost:3000/auth/register
 
@@ -84,6 +84,21 @@ Tecnologías utilizadas:
             "password": "12345678"
         }
     ```
+  - REGISTRAR DOCTOR (ADMIN)
+
+          POST http://localhost:3000/auth/register
+
+    body:
+
+    ```js
+        {
+             "nombre": "Diego",
+             "apellidos": "Forlan",
+             "email": "diego@diego.com",
+             "password": "12345678"
+        }
+    ```
+
 
   - LOGIN
 
