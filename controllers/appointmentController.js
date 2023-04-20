@@ -1,5 +1,5 @@
 const appointmentController = {};
-const { Citas, Centro, Doctores, Usuarios } = require("../models");
+const { Citas, Centro, Doctores, Usuarios, Pacientes } = require("../models");
 const {
   sendSuccsessResponse,
   sendErrorResponse,
@@ -9,9 +9,12 @@ const {
 appointmentController.createAppointment = async (req, res) => {
   try {
     const { fecha, horario, id_centro, tratamiento, id_doctor } = req.body;
+    const paciente = await Pacientes.findOne({
+      where: { id_usuario: req.user_id },
+    });
     const newAppointment = await Citas.create({
       id_doctor: id_doctor,
-      id_paciente: req.user_id,
+      id_paciente: paciente.id,
       id_centro: id_centro,
       fecha: fecha,
       horario: horario,
