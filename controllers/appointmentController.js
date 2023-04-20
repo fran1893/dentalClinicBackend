@@ -73,8 +73,11 @@ appointmentController.createAppointment = async (req, res) => {
 appointmentController.deleteAppointment = async (req, res) => {
   try {
     const appointmentId = req.params.id;
+    const paciente = await Pacientes.findOne({
+      where: { id_usuario: req.user_id },
+    });
     await Citas.destroy({
-      where: { id: appointmentId, id_paciente: req.user_id },
+      where: { id: appointmentId, id_paciente: paciente.id },
     });
     return sendSuccsessResponse(res, 200, [{ message: "Appointment deleted" }]);
   } catch (error) {
@@ -87,6 +90,9 @@ appointmentController.updateAppointment = async (req, res) => {
   try {
     const appointmentId = req.params.id;
     const { fecha, horario, tratamiento, id_centro, id_doctor } = req.body;
+    const paciente = await Pacientes.findOne({
+      where: { id_usuario: req.user_id },
+    });
     await Citas.update(
       {
         fecha: fecha,
@@ -95,7 +101,7 @@ appointmentController.updateAppointment = async (req, res) => {
         id_centro: id_centro,
         id_doctor: id_doctor,
       },
-      { where: { id: appointmentId, id_paciente: req.user_id } }
+      { where: { id: appointmentId, id_paciente: paciente.id } }
     );
     return sendSuccsessResponse(res, 200, [{ message: "Appointment changed" }]);
   } catch (error) {
