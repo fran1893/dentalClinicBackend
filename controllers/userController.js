@@ -56,8 +56,12 @@ userController.updateProfile = async (req, res) => {
 // MOSTRAR LAS CITAS DEL PACIENTE
 userController.getAppointmentsByPatient = async (req, res) => {
   try {
+    const paciente = await Pacientes.findOne({
+      where: { id_usuario: req.user_id },
+    });
+
     const appointments = await Citas.findAll({
-      where: { id_paciente: req.id_paciente },
+      where: { id_paciente: paciente.id },
       attributes: {
         exclude: ["id", "createdAt", "updatedAt"],
       },
@@ -85,8 +89,21 @@ userController.getAppointmentsByPatient = async (req, res) => {
 // VER TODAS LAS CITAS DEL DOCTOR
 userController.getAllAppointmentsByDoctor = async (req, res) => {
   try {
+    const doctor = await Doctores.findOne({
+      where: { id_usuario: req.user_id },
+    });
+
     const appointments = await Citas.findAll({
-      where: { id_doctor: req.id_doctor },
+      where: { id_paciente: doctor.id },
+      attributes: {
+        exclude: ["id", "createdAt", "updatedAt"],
+      },
+      include: {
+        model: Centro,
+        attributes: {
+          exclude: ["id", "createdAt", "updatedAt"],
+        },
+      },
     });
     return sendSuccsessResponse(res, 200, [
       { message: "Here are your appointments" },
