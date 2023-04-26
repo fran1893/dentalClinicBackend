@@ -72,10 +72,15 @@ userController.getAppointmentsByPatient = async (req, res) => {
         },
       },
     });
-    return sendSuccsessResponse(res, 200, [
-      { message: "Here are your appointments" },
-      appointments,
-    ]);
+
+    if (appointments == 1) {
+      return sendSuccsessResponse(res, 200, [
+        { message: "Here are your appointments" },
+        appointments,
+      ]);
+    } else {
+      return sendErrorResponse(res, 404, "Dont have appointments");
+    }
   } catch (error) {
     return sendErrorResponse(
       res,
@@ -105,10 +110,14 @@ userController.getAllAppointmentsByDoctor = async (req, res) => {
         },
       },
     });
-    return sendSuccsessResponse(res, 200, [
-      { message: "Here are your appointments" },
-      appointments,
-    ]);
+    if (appointments == 1) {
+      return sendSuccsessResponse(res, 200, [
+        { message: "Here are your appointments" },
+        appointments,
+      ]);
+    } else {
+      return sendErrorResponse(res, 404, "Dont have appointments");
+    }
   } catch (error) {
     return sendErrorResponse(
       res,
