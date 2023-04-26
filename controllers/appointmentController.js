@@ -76,10 +76,16 @@ appointmentController.deleteAppointment = async (req, res) => {
     const paciente = await Pacientes.findOne({
       where: { id_usuario: req.user_id },
     });
-    await Citas.destroy({
+    const deleteCita = await Citas.destroy({
       where: { id: appointmentId, id_paciente: paciente.id },
     });
-    return sendSuccsessResponse(res, 200, [{ message: "Appointment deleted" }]);
+    if (deleteCita == 1) {
+      return sendSuccsessResponse(res, 200, [
+        { message: "Appointment changed" },
+      ]);
+    } else {
+      return sendErrorResponse(res, 404, "Complete require filds correctly");
+    }
   } catch (error) {
     return sendErrorResponse(res, 500, "Unable to delete appointment", error);
   }
@@ -93,7 +99,7 @@ appointmentController.updateAppointment = async (req, res) => {
     const paciente = await Pacientes.findOne({
       where: { id_usuario: req.user_id },
     });
-    await Citas.update(
+    const updateCita = await Citas.update(
       {
         fecha: fecha,
         horario: horario,
@@ -103,7 +109,14 @@ appointmentController.updateAppointment = async (req, res) => {
       },
       { where: { id: appointmentId, id_paciente: paciente.id } }
     );
-    return sendSuccsessResponse(res, 200, [{ message: "Appointment changed" }]);
+
+    if (updateCita == 1) {
+      return sendSuccsessResponse(res, 200, [
+        { message: "Appointment changed" },
+      ]);
+    } else {
+      return sendErrorResponse(res, 404, "Complete require filds correctly");
+    }
   } catch (error) {
     return sendErrorResponse(res, 500, "Unable to update appointment", error);
   }
