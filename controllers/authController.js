@@ -59,7 +59,7 @@ authController.registerDoctor = async (req, res) => {
     apellidos,
     email,
     password: encryptedPassword,
-    id_rol: 1,
+    id_rol: 3,
   };
 
   try {
