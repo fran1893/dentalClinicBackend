@@ -6,7 +6,10 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert(
       "pacientes",
-      [{ id_usuario: 1, createdAt: new Date(), updatedAt: new Date() }],
+      [
+        { id_usuario: 1, createdAt: new Date(), updatedAt: new Date() },
+        { id_usuario: 2, createdAt: new Date(), updatedAt: new Date() },
+      ],
       {}
     );
   },

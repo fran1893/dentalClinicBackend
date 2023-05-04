@@ -8,7 +8,13 @@ module.exports = {
       "doctores",
       [
         {
-          id_usuario: 3,
+          id_usuario: 4,
+          activo: "si",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id_usuario: 5,
           activo: "si",
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -20,7 +26,7 @@ module.exports = {
 
   async down(queryInterface, Sequelize) {
     await queryInterface.bulkDelete("doctores", {
-      [Op.or]: [{ id_usuario: 3 }],
+      [Op.or]: [{ id_usuario: 4 }, { id_usuario: 5 }],
     });
   },
 };
