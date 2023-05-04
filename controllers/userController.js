@@ -5,6 +5,10 @@ const {
   sendErrorResponse,
 } = require("../_util/sendResponse");
 const { hash } = require("../_util/hash");
+const { getPagesFromCountLimit, normalizePage } = require("../_util/util");
+const { user } = require("../config/global");
+
+const LIMIT = user.paginationLimit;
 
 const userController = {};
 
@@ -130,8 +134,15 @@ userController.getAllAppointmentsByDoctor = async (req, res) => {
 
 // MOSTRAR TODOS LOS PACIENTES (ADMIN)
 userController.getAllPatients = async (req, res) => {
+  let { page } = req.query;
   try {
+    const count = await Pacientes.count();
+    const pages = getPagesFromCountLimit(count, LIMIT);
+    page = normalizePage(page, pages);
+
     const patients = await Pacientes.findAll({
+      limit: LIMIT,
+      offset: (page - 1) * LIMIT,
       attributes: {
         exclude: ["createdAt", "updatedAt"],
       },
@@ -144,8 +155,13 @@ userController.getAllPatients = async (req, res) => {
     });
 
     return sendSuccsessResponse(res, 200, {
-      message: "Here are all the patients",
-      patients: patients,
+      info: {
+        total_results: count,
+        limit_results: patients.length,
+        page: page,
+        total_pages: pages,
+      },
+      results: patients,
     });
   } catch (error) {
     return sendErrorResponse(
@@ -159,7 +175,12 @@ userController.getAllPatients = async (req, res) => {
 
 // MOSTRAR TODOS LOS DOCTORES (ADMIN)
 userController.getAllDoctors = async (req, res) => {
+  let { page } = req.query;
   try {
+    const count = await Doctores.count();
+    const pages = getPagesFromCountLimit(count, LIMIT);
+    page = normalizePage(page, pages);
+
     const doctors = await Doctores.findAll({
       attributes: {
         exclude: ["createdAt", "updatedAt"],
@@ -173,8 +194,13 @@ userController.getAllDoctors = async (req, res) => {
       },
     });
     return sendSuccsessResponse(res, 200, {
-      message: "Here are all the doctors",
-      doctors: doctors,
+      info: {
+        total_results: count,
+        limit_results: doctors.length,
+        page: page,
+        total_pages: pages,
+      },
+      results: doctors,
     });
   } catch (error) {
     return sendErrorResponse(

@@ -6,6 +6,7 @@ const {
 } = require("../_util/sendResponse");
 const { hash, compareHash } = require("../_util/hash");
 const { generateToken } = require("../_util/token");
+const { isPasswordValidLength } = require("../_util/util");
 
 const authController = {};
 
@@ -13,7 +14,7 @@ const authController = {};
 authController.register = async (req, res) => {
   const { nombre, email, password, apellidos } = req.body;
 
-  if (password.length < 8) {
+  if (!isPasswordValidLength(password)) {
     return sendErrorResponse(
       res,
       400,
@@ -44,7 +45,7 @@ authController.register = async (req, res) => {
 authController.registerDoctor = async (req, res) => {
   const { nombre, email, password, apellidos } = req.body;
 
-  if (password.length < 8) {
+  if (!isPasswordValidLength(password)) {
     return sendErrorResponse(
       res,
       400,
