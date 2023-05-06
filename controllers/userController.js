@@ -182,6 +182,8 @@ userController.getAllDoctors = async (req, res) => {
     page = normalizePage(page, pages);
 
     const doctors = await Doctores.findAll({
+      limit: LIMIT,
+      offset: (page - 1) * LIMIT,
       attributes: {
         exclude: ["createdAt", "updatedAt"],
       },
