@@ -77,7 +77,7 @@ userController.getAppointmentsByPatient = async (req, res) => {
       },
     });
 
-    if (appointments.length > 0) {
+    if (appointments == 1) {
       return sendSuccsessResponse(res, 200, [
         { message: "Here are your appointments" },
         appointments,
@@ -114,7 +114,7 @@ userController.getAllAppointmentsByDoctor = async (req, res) => {
         },
       },
     });
-    if (appointments.length > 0) {
+    if (appointments == 1) {
       return sendSuccsessResponse(res, 200, {
         message: "Here are your appointments",
         appointments: appointments,
