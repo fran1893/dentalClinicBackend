@@ -78,10 +78,10 @@ userController.getAppointmentsByPatient = async (req, res) => {
     });
 
     if (appointments == 1) {
-      return sendSuccsessResponse(res, 200, [
-        { message: "Here are your appointments" },
+      return sendSuccsessResponse(res, 200, {
+        message: "Here are your appointments",
         appointments,
-      ]);
+      });
     } else {
       return sendErrorResponse(res, 404, "Dont have appointments");
     }

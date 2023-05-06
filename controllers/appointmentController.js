@@ -59,11 +59,11 @@ appointmentController.createAppointment = async (req, res) => {
         },
       },
     });
-    return sendSuccsessResponse(res, 200, [
-      { message: "Appointment created" },
-      newAppointmentData,
-      doctorData,
-    ]);
+    return sendSuccsessResponse(res, 200, {
+      message: "Appointment created",
+      newAppointment: newAppointmentData,
+      Doctor: doctorData,
+    });
   } catch (error) {
     return sendErrorResponse(res, 500, "Unable to create appointment", error);
   }
@@ -80,9 +80,7 @@ appointmentController.deleteAppointment = async (req, res) => {
       where: { id: appointmentId, id_paciente: paciente.id },
     });
     if (deleteCita == 1) {
-      return sendSuccsessResponse(res, 200, [
-        { message: "Appointment changed" },
-      ]);
+      return sendSuccsessResponse(res, 200, { message: "Appointment changed" });
     } else {
       return sendErrorResponse(res, 404, "Complete require filds correctly");
     }
@@ -111,9 +109,7 @@ appointmentController.updateAppointment = async (req, res) => {
     );
 
     if (updateCita == 1) {
-      return sendSuccsessResponse(res, 200, [
-        { message: "Appointment changed" },
-      ]);
+      return sendSuccsessResponse(res, 200, { message: "Appointment changed" });
     } else {
       return sendErrorResponse(res, 404, "Complete require filds correctly");
     }
