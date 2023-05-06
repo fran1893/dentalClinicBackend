@@ -1,4 +1,4 @@
-const { Usuarios, Pacientes, Doctores } = require("../models");
+const { Usuarios, Pacientes, Doctores, Roles } = require("../models");
 
 const {
   sendSuccsessResponse,
@@ -81,7 +81,14 @@ authController.login = async (req, res) => {
   }
 
   try {
-    const user = await Usuarios.findOne({ where: { email: email } });
+    const user = await Usuarios.findOne({
+      where: { email: email },
+      include: [
+        {
+          model: Roles,
+        },
+      ],
+    });
 
     if (!user) {
       return sendErrorResponse(res, 404, "User's email not exist");
@@ -91,21 +98,17 @@ authController.login = async (req, res) => {
     if (!isValidPassword) {
       return sendErrorResponse(res, 401, "Bad credentials");
     }
-
-    const token = generateToken({ user_id: user.id, user_role: user.id_rol });
-    let role;
-    if (user.id_rol == 1) {
-      role = "user";
-    } else if (user.id_rol == 2) {
-      role = "admin";
-    } else if (user.id_rol == 3) {
-      role = "doctor";
-    }
+    console.log(user.Role.nombre_rol)
+    const token = generateToken({
+      user_id: user.id,
+      user_role: user.Role.nombre_rol,
+      user_name: user.nombre
+    });
 
     sendSuccsessResponse(res, 200, {
       message: "User login succesfull",
       token: token,
-      role: role,
+      role: user.Role.nombre_rol,
     });
   } catch (error) {
     sendErrorResponse(res, 500, "User login failed", error);
