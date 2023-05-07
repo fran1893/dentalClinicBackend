@@ -36,7 +36,7 @@ module.exports = {
           edad: 29,
           email: "pancho@gmail.com",
           telefono: 618560718,
-          password: bcrypt.hashSync("admin", 10),
+          password: bcrypt.hashSync("12345678", 10),
           id_rol: 2,
           createdAt: new Date(),
           updatedAt: new Date(),
