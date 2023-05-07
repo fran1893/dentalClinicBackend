@@ -67,7 +67,7 @@ userController.getAppointmentsByPatient = async (req, res) => {
     const appointments = await Citas.findAll({
       where: { id_paciente: paciente.id },
       attributes: {
-        exclude: ["id", "createdAt", "updatedAt"],
+        exclude: [, "createdAt", "updatedAt"],
       },
       include: {
         model: Centro,
@@ -77,7 +77,7 @@ userController.getAppointmentsByPatient = async (req, res) => {
       },
     });
 
-    if (appointments == 1) {
+    if (appointments.length > 0) {
       return sendSuccsessResponse(res, 200, {
         message: "Here are your appointments",
         appointments,
@@ -105,7 +105,7 @@ userController.getAllAppointmentsByDoctor = async (req, res) => {
     const appointments = await Citas.findAll({
       where: { id_paciente: doctor.id },
       attributes: {
-        exclude: ["id", "createdAt", "updatedAt"],
+        exclude: ["createdAt", "updatedAt"],
       },
       include: {
         model: Centro,
@@ -114,7 +114,7 @@ userController.getAllAppointmentsByDoctor = async (req, res) => {
         },
       },
     });
-    if (appointments == 1) {
+    if (appointments.length > 0) {
       return sendSuccsessResponse(res, 200, {
         message: "Here are your appointments",
         appointments: appointments,
