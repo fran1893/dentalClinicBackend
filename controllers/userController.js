@@ -103,7 +103,7 @@ userController.getAllAppointmentsByDoctor = async (req, res) => {
     });
 
     const appointments = await Citas.findAll({
-      where: { id_paciente: doctor.id },
+      where: { id_doctor: doctor.id },
       attributes: {
         exclude: ["createdAt", "updatedAt"],
       },
@@ -114,6 +114,7 @@ userController.getAllAppointmentsByDoctor = async (req, res) => {
         },
       },
     });
+
     if (appointments.length > 0) {
       return sendSuccsessResponse(res, 200, {
         message: "Here are your appointments",
