@@ -12,7 +12,7 @@ const authController = {};
 
 // REGISTRAR USUARIO
 authController.register = async (req, res) => {
-  const { nombre, email, password, apellidos } = req.body;
+  const { nombre, email, edad, password, apellidos } = req.body;
 
   if (!isPasswordValidLength(password)) {
     return sendErrorResponse(
@@ -27,6 +27,7 @@ authController.register = async (req, res) => {
   const newUser = {
     nombre,
     apellidos,
+    edad,
     email,
     password: encryptedPassword,
     id_rol: 1,
@@ -34,7 +35,7 @@ authController.register = async (req, res) => {
 
   try {
     let newPatient = await Usuarios.create(newUser);
-    Pacientes.create({ id_usuario: newPatient.id });
+    await Pacientes.create({ id_usuario: newPatient.id });
     sendSuccsessResponse(res, 201, "User registered succsessfully");
   } catch (error) {
     sendErrorResponse(res, 500, "Error creating user", error);
@@ -43,7 +44,7 @@ authController.register = async (req, res) => {
 
 // REGISTRAR DOCTOR COMO ADMIN
 authController.registerDoctor = async (req, res) => {
-  const { nombre, email, password, apellidos } = req.body;
+  const { nombre, email, edad, password, apellidos, activo } = req.body;
 
   if (!isPasswordValidLength(password)) {
     return sendErrorResponse(
@@ -58,6 +59,7 @@ authController.registerDoctor = async (req, res) => {
   const newUser = {
     nombre,
     apellidos,
+    edad,
     email,
     password: encryptedPassword,
     id_rol: 3,
@@ -65,7 +67,7 @@ authController.registerDoctor = async (req, res) => {
 
   try {
     let newDoctor = await Usuarios.create(newUser);
-    await Doctores.create({ id_usuario: newDoctor.id });
+    await Doctores.create({ id_usuario: newDoctor.id, activo: activo });
     sendSuccsessResponse(res, 201, "Doctor registered succsessfully");
   } catch (error) {
     sendErrorResponse(res, 500, "Error creating doctor", error);
@@ -98,11 +100,11 @@ authController.login = async (req, res) => {
     if (!isValidPassword) {
       return sendErrorResponse(res, 401, "Bad credentials");
     }
-    console.log(user.Role.nombre_rol)
+    console.log(user.Role.nombre_rol);
     const token = generateToken({
       user_id: user.id,
       user_role: user.Role.nombre_rol,
-      user_name: user.nombre
+      user_name: user.nombre,
     });
 
     sendSuccsessResponse(res, 200, {
