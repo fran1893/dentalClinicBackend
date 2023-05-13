@@ -36,11 +36,16 @@ userController.updateProfile = async (req, res) => {
       newPassword = hash(req.body.password);
       console.log(newPassword);
     }
+
+    const user = await Usuarios.findOne({
+      where: { id: id_usuario },
+    })
+    
     const updateProfile = await Usuarios.update(
       {
         ...req.body,
         password: newPassword,
-        id_rol: 1,
+        id_rol: user.id_rol,
       },
       { where: { id: id_usuario } }
     );
